@@ -19,9 +19,10 @@ bool insterList(LinearList *L, int i ,ElemType e) {
         L->len++;
         return true;
 }
-bool deleteList(LinearList *L,int i,ElemType e) {
+bool deleteList(LinearList *L,int i,ElemType *d) {
         if (L->len==0)return false;
-        e=L->data[i-1];
+        if (i<1||i>L->len) return false;
+        *d=L->data[i-1];
         for (int j=i;j<L->len;j++) {
                 L->data[j-1]=L->data[j];
 
@@ -36,6 +37,15 @@ void PrintList(LinearList L) {
         printf("\n");
 }
 
+int localElemType(LinearList L,ElemType e) {
+        int i;
+        for (i=0;i<L.len;i++) {
+                if (L.data[i]==e)
+                 printf("%d\n",i+1);
+
+        }
+        return 0;
+}
 int main() {
         LinearList L;
         L.len=4;
@@ -46,9 +56,13 @@ int main() {
         insterList(&L,3,3);
         printf("%d\n",L.len);
         PrintList(L);
-        deleteList(&L,1,2);
+        ElemType d;
+        deleteList(&L,1,&d);
         printf("%d\n",L.len);
         PrintList(L);
+        printf("-----------\n");
+        localElemType(L,3);
+        localElemType(L,2);
         return 0;
 
 

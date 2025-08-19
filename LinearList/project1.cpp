@@ -46,6 +46,7 @@ int localElemType(LinearList L,ElemType e) {
         }
         return 0;
 }
+
 int main() {
         LinearList L;
         L.len=4;

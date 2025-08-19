@@ -28,6 +28,22 @@ void insterLiList(LiList &L) {
     }
 
 }
+//尾插法
+void inster_tail_LiList(LiList &L) {
+    L=(LiList)malloc(sizeof(Node));
+    L->next=NULL;
+    ElemType x;
+    scanf("%d",&x);
+    LiList s,r=L;
+    while (x!=99999) {
+        s=(LiList)malloc(sizeof(Node));
+        s->data=x;
+        r->next=s;
+        r=s;
+        scanf("%d",&x);
+    }
+    r->next=NULL;
+}
 void printLiList(LiList L) {
     LiList p=L->next;
     while (p!=NULL) {
@@ -38,7 +54,8 @@ void printLiList(LiList L) {
 }
 int main() {
     LiList L;
-    insterLiList(L);
+    // insterLiList(L);
+    inster_tail_LiList( L);
     printLiList(L);
     return 0;
 

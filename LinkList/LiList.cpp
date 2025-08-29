@@ -9,13 +9,13 @@ typedef struct Node {
     ElemType data;
     struct Node* next;
 }Node,*LiList;
-//å¤´æ’æ³•
-void insterLiList(LiList &L) {
-    L=(LiList)malloc(sizeof(Node));//åˆ†é…å¤´èŠ‚ç‚¹ç©ºé—´
+//Í·²å·¨
+void insterLiList(LiList &L) {//LiList &LÎªÒıÓÃÍâ²¿µÄL±äÁ¿´«Èë²ÎÊıÖµ
+    L=(LiList)malloc(sizeof(Node));//·ÖÅäÍ·½Úµã¿Õ¼ä
 
     L->next= NULL;
     ElemType x;
-    scanf("%d",&x);//è¾“å…¥éœ€è¦æ’å…¥çš„æ•°æ®
+    scanf("%d",&x);//ÊäÈëĞèÒª²åÈëµÄÊı¾İ
     LiList s;
 
     while (x!=99999) {
@@ -28,7 +28,7 @@ void insterLiList(LiList &L) {
     }
 
 }
-//å°¾æ’æ³•
+//Î²²å·¨
 void inster_tail_LiList(LiList &L) {
     L=(LiList)malloc(sizeof(Node));
     L->next=NULL;
@@ -44,18 +44,116 @@ void inster_tail_LiList(LiList &L) {
     }
     r->next=NULL;
 }
+
+//°´Î»²éÕÒ
+LiList GetElements(LiList L,int searchPos) {
+    int i=0;
+    if (searchPos<=0) {
+        return NULL;
+    }
+    while (L&&i<searchPos) {
+        L=L->next;
+        i++;
+    }
+    return L;
+}
+//°´Öµ²éÕÒ
+int LocalElements(LiList L,int val) {
+    if (val==99999) {
+        return NULL;
+    }
+    int i=0;
+    while (L) {
+        L=L->next;
+        i++;
+        if (L->data==val) {
+            return i;
+        }
+    }
+}
+//É¾µã£¬É¾³ıµÚi¸öÎ»ÖÃ
+bool delete_LiList(LiList &L) {
+    int i;
+    printf("ÇëÊäÈëÉ¾³ıµÄÎ»ÖÃ\n");
+    scanf("%d",&i);
+    if (i<=0) return false;
+    LiList temp=L;
+    for (int j=0;j<i+1;j++) {
+        if (temp==NULL) {
+            printf("É¾³ıÎ»ÖÃ²»´æÔÚ");
+            return false;
+        }
+        temp=temp->next;
+    }
+    if (i == 1) {
+        LiList toDelete = L;
+        L = toDelete->next;  // ¸üĞÂÍ·Ö¸Õë
+        free(toDelete);  // ÊÍ·ÅÉ¾³ıµÄ½Úµã
+        return true;
+    }//µ±É¾³ıµÚÒ»¸öÎ»ÖÃµÄÔªËØÊ±£¬ĞèÒªĞŞ¸ÄÍ·Ö¸Õë
+    LiList q=GetElements(L,i-1);//ÕÒÒªÉ¾³ı½ÚµãµÄÇ°Ò»¸ö½Úµã
+    LiList p=q->next;        //ÕÒÒªÉ¾³ıµÄ½Úµã
+    q->next=p->next;
+    free(p);
+    return true;
+
+}
+LiList Listmid_inster(LiList L,int i,ElemType *e) {
+    printf("ÇëÊäÈë²åÈëÊı¾İµÄÎ»ÖÃºÍÊıÖµ:\n");
+    scanf("%d",&i);
+    scanf("%d",e);
+    if (i<=0||*e==99999) return 0;
+    LiList s;
+    s=(LiList)malloc(sizeof(Node));
+    s->data=*e;
+
+    LiList temp = L;
+    for (int j = 0; j < i - 1; j++) {
+        if (temp == NULL) {  // ·ÀÖ¹Î»ÖÃÔ½½ç
+            printf("Î»ÖÃ³¬³öÁ´±í·¶Î§\n");
+            free(s);  // ÊÍ·ÅÄÚ´æ
+            return L;
+        }
+        temp = temp->next;
+    }
+
+    // ²åÈë½Úµã
+    s->next = temp->next;
+    temp->next = s;
+    return L;
+}
 void printLiList(LiList L) {
+
     LiList p=L->next;
     while (p!=NULL) {
-        printf("%d\n",p->data);
+        printf("%d ",p->data);
         p=p->next;
     }
     printf("\n");
 }
 int main() {
-    LiList L;
+    LiList L,search;
+    int searchs;
     // insterLiList(L);
+    printf("ÊäÈë²åÈëÁ´±íµÄÊı¾İ:\n");
     inster_tail_LiList( L);
+    printLiList(L);
+
+    // search=GetElements(L,1);
+    // if (search!=NULL) {
+    //     printf("successful\n");
+    //     printf("%d\n",search->data);
+    // }
+    // searchs=LocalElements(L,4);
+    // if (searchs!=NULL) {
+    //     printf("successful too\n");
+    //     printf("%d\n",searchs);
+    // }
+    // ElemType e;
+    // int i=0;
+    // Listmid_inster(L,i,&e);
+    // printLiList(L);
+    delete_LiList(L);
     printLiList(L);
     return 0;
 
